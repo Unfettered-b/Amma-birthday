@@ -210,6 +210,44 @@ const animationTimeline = () => {
       },
       0.2
     )
+    
+
+    // 👇 ADD HERE
+    // Animate 6 custom screens one by one
+    // Set all screens initially hidden
+    for (let i = 1; i <= 6; i++) {
+      tl.set(`#screen${i}`, { opacity: 0, display: "none" });
+    }
+
+    // Animate each screen one by one
+    for (let i = 1; i <= 6; i++) {
+      tl.set(`#screen${i}`, { display: "block" }); // Make screen visible
+
+      tl.fromTo(`#screen${i}`, 0.5, { opacity: 0 }, { opacity: 1 });
+
+      tl.from(`#screen${i} img`, 0.7, {
+        opacity: 0,
+        scale: 0.8,
+        y: 30,
+        ease: Power2.easeOut
+      });
+
+      tl.from(`#screen${i} p`, 0.5, {
+        opacity: 0,
+        y: 20,
+        ease: Power2.easeOut
+      });
+
+      tl.to(`#screen${i}`, 0.5, {
+        opacity: 0,
+        y: -30
+      }, '+=2');
+
+      tl.set(`#screen${i}`, { display: "none" }); // Hide after animation
+    }
+
+
+tl
     .from(
       ".lydia-dp",
       0.5,
@@ -220,30 +258,8 @@ const animationTimeline = () => {
         y: -25,
         rotationZ: -45
       },
-      "-=2"
+      "+=2"
     )
-
-    // 👇 ADD HERE
-    // Animate 6 custom screens one by one
-    for (let i = 1; i <= 6; i++) {
-      tl.from(`#screen${i} img`, 0.7, {
-        opacity: 0,
-        scale: 0.8,
-        y: 30,
-        ease: Power2.easeOut
-      });
-      tl.from(`#screen${i} p`, 0.5, {
-        opacity: 0,
-        y: 20,
-        ease: Power2.easeOut
-      });
-      tl.to(`#screen${i}`, 0.5, {
-        opacity: 0,
-        y: -30
-      }, '+=2');
-    }
-
-tl
     // CONTINUES with:
     .from(".hat", 0.5, {
       x: -100,
