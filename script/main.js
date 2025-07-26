@@ -6,14 +6,16 @@ const fetchData = () => {
       dataArr = Object.keys(data);
       dataArr.map(customData => {
         if (data[customData] !== "") {
-          if (customData === "imagePath") {
-            document
-              .querySelector(`[data-node-name*="${customData}"]`)
-              .setAttribute("src", data[customData]);
+          const el = document.querySelector(`[data-node-name="${customData}"]`);
+          if (!el) return;
+
+          if (customData.startsWith("image")) {
+            el.setAttribute("src", data[customData]);
           } else {
-            document.querySelector(`[data-node-name*="${customData}"]`).innerText = data[customData];
+            el.innerText = data[customData];
           }
         }
+
 
         // Check if the iteration is over
         // Run amimation if so
@@ -220,12 +222,36 @@ const animationTimeline = () => {
       },
       "-=2"
     )
+
+    // 👇 ADD HERE
+    // Animate 6 custom screens one by one
+    for (let i = 1; i <= 6; i++) {
+      tl.from(`#screen${i} img`, 0.7, {
+        opacity: 0,
+        scale: 0.8,
+        y: 30,
+        ease: Power2.easeOut
+      });
+      tl.from(`#screen${i} p`, 0.5, {
+        opacity: 0,
+        y: 20,
+        ease: Power2.easeOut
+      });
+      tl.to(`#screen${i}`, 0.5, {
+        opacity: 0,
+        y: -30
+      }, '+=2');
+    }
+
+tl
+    // CONTINUES with:
     .from(".hat", 0.5, {
       x: -100,
       y: 350,
       rotation: -180,
       opacity: 0
     })
+
     .staggerFrom(
       ".wish-hbd span",
       0.7,
@@ -255,6 +281,7 @@ const animationTimeline = () => {
       0.1,
       "party"
     )
+
     .from(
       ".wish h5",
       0.5,
